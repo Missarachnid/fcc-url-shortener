@@ -8,23 +8,34 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 var path = require('path');
 var mongodb = require('mongodb');
-var dataStore = require('./dataStore');
 var shortUrl = require('./models/shortUrl');
-var app = express();
 
+var app = express();
 app.use(bodyParser.json());
 app.use(cors());
-// init project
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static(path.join(__dirname, 'public')));
 
- //http://expressjs.com/en/starter/basic-routing.html
+var MONGODB_URI = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 
 mongoose.connect(MONGODB_URI, {
   useMongoClient: true
+});
+
+
+app.get('/new/:urlToShorten(*)', (req, res, next)=>{
+    var urlToShorten = req.params.urlToShorten;
+    return urlToShorten;
+    
+    //var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+
+    //if(regex.test(urlToShorten) === true){
+        //return "Works";
+    //}else{
+        //return "Fails";
+    //}
+  
+    
 });
 
 
