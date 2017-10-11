@@ -30,16 +30,17 @@ app.get('/', function(req, res){
 
 
 app.get('/new/:urlToShorten(*)', (req, res)=>{
-    var {urlToShorten} = req.params.urlToShorten;
-    return res.json(urlToShorten);
+    var {urlToShorten} = req.params;
+    //return res.json(urlToShorten);
     
-    //var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    //var regex = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 
-    //if(regex.test(urlToShorten) === true){
-        //return "Works";
-    //}else{
-        //return "Fails";
-    //}
+  
+    if(regex.test(urlToShorten) === true){
+        return res.json("Works");
+    }else{
+        return res.json("Fails");
+    }
   
     
 });
