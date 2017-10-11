@@ -14,18 +14,24 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-var MONGODB_URI = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
+//var MONGODB_URI = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 
-mongoose.connect(MONGODB_URI, {
-  useMongoClient: true
+//mongoose.connect(MONGODB_URI, {
+  //useMongoClient: true
+//});
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/views/index.html');
+  
 });
 
 
-app.get('/new/:urlToShorten(*)', (req, res, next)=>{
-    var urlToShorten = req.params.urlToShorten;
-    return urlToShorten;
+app.get('/new/:urlToShorten(*)', (req, res)=>{
+    var {urlToShorten} = req.params.urlToShorten;
+    return res.json(urlToShorten);
     
     //var regex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 
