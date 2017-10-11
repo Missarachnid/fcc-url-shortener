@@ -8,6 +8,7 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 var path = require('path');
 var mongodb = require('mongodb');
+var dataStore = require('./dataStore');
 var app = express();
 
 app.use(bodyParser.json());
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
  //http://expressjs.com/en/starter/basic-routing.html
 
-
+mongoose.connect(dataStore);
 
 
 // listen for requests :)
