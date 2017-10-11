@@ -23,7 +23,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
  //http://expressjs.com/en/starter/basic-routing.html
 
-//mongoose.connect(dataStore);
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 
 // listen for requests :)
