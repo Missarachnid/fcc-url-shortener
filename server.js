@@ -10,8 +10,13 @@ var shortUrl = require('./models/shortUrl');
 var app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
+mongodb.MongoClient.connect(uri, (err, db) => {
+  if (err)throw err;
+});
+                          
 
 //display the initial view
 app.use(express.static('public'));
@@ -21,6 +26,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
 var {toShort} = req.params;
   console.log(toShort);
 });
+
 
 
 
