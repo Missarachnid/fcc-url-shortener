@@ -39,11 +39,11 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   
   if(valid.test(toShort) === true){
 
-    shortUrl.find({'originalUrl': toShort}, (err, resData) => {
+    shortUrl.findOne({'originalUrl': toShort}, (err, resData) => {
       if(err){
         console.log(err);
       }
-      if(!resData.length){
+      if(resData === null){
         let num = Math.floor(Math.random() * 100000).toString();
         let data = new shortUrl(
           {
@@ -59,8 +59,9 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
       });
     
     }else{
+      //console.log('this already exists');
       //console.log(resData.originalUrl);
-      
+      res.send({originalUrl: resData.originalUrl, shortenedUrl: resData.shortenedUrl});
     }
        
     });
