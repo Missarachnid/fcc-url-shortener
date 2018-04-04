@@ -25,7 +25,7 @@ app.use(express.static('public'));
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
   const valid = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)?/gi;
-  let num = Math.floor(Math.random() * 100000).toString();
+  
   
   
   if(valid.test(toShort) === true){
@@ -44,6 +44,9 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
 });
 
 
+mongodb.MongoClient.connect((uri, err, db) => {
+  if(err) throw err;
+});
 
 
 // listen for requests :)
