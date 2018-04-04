@@ -23,12 +23,6 @@ mongoose.connect(uri).then((err, res) => {
     console.log(err);
   }else{
     console.log('connected');
-    const db = mongoose.connection;
-db.createCollection("shorturls", {
-    capped: true,
-    size: 5242880,
-    max: 5000
-  });
   }
 });
 
@@ -42,13 +36,14 @@ app.use(express.static('public'));
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
   const valid = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-  
+  //test if it passes the regex
   if(valid.test(toShort) === true){
-
+    //If it is formatted right, then we check to see if it already exists
     shortUrl.findOne({'originalUrl': toShort}, (err, resData) => {
       if(err){
         console.log(err);
       }
+      //findOne returns null for no entries, so then we can save the entry
       if(resData === null){
         let num = Math.floor(Math.random() * 100000).toString();
         let data = new shortUrl(
