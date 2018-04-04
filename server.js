@@ -41,9 +41,18 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
       } else {
         let num = Math.floor(Math.random() * 100000).toString();
         const data = {
-          orin
+          originalUrl: toShort,
+          shortenedUrl: num
         };
+        db.collection('+process.env.DB+').find({originalUrl: toShort}, (err, data) => {
+          if(err){
+            res.send(err);
+          } else{
+            console.log(data);
+          }
+        });
       }
+         
     
     });
     res.json({url: 'worked'});
