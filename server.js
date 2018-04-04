@@ -38,18 +38,21 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   const valid = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/gi;
   
   if(valid.test(toShort) === true){
-  
-     
-      //console.log('connected');
-      let num = Math.floor(Math.random() * 100000).toString();
-    
-      const data = new shortUrl(
+
+    if(shortUrl.find)
+    let num = Math.floor(Math.random() * 100000).toString();
+    let data = new shortUrl(
         {
         originalUrl: toShort,
         shortenedUrl: num,
         }
       );
-       
+      data.save(err => {
+        if(err){
+          return res.send('Error saving to database');
+        }
+      });   
+    
       
     //res.json({url: 'worked'});
   }else{
