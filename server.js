@@ -43,7 +43,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         }
       );
        
-       db.insert
+       db.collection('+process.env.DB+').insert(data, (response) => {console.log(response)});
        
        
      }
