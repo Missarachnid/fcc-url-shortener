@@ -17,12 +17,10 @@ app.use(cors());
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';     
 
-mongoose.connect(uri, {useMongoClient: true});
-const db = mongoose.connection;
-db.on('error', console.log('error connecting to db'));
-db.once('open', function() {
-  console.log('connected');
-});
+mongoose.connect(uri, {useMongoClient: true}).then(
+  () => { console.log('connected to db'); },
+  err => { console.log(err);}
+);
 
 //display the initial view
 app.use(express.static('public'));
