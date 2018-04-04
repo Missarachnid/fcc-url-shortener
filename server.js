@@ -19,6 +19,9 @@ const projectUrl = 'https://momentous-trick.glitch.me/';
 
 console.log(uri);
 
+mongoose.connect(uri);
+
+
 
 //display the initial view
 app.use(express.static('public'));
@@ -43,9 +46,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         }
       );
        
-       db.collection('shortened').insert(data, (response) => {console.log(response)});
-       
-       
+      data.save(err => {return res.send('Error saving to database')});
      }
    
    });
