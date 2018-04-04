@@ -23,8 +23,14 @@ app.use(express.static('public'));
 
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
-var {toShort} = req.params;
-  console.log(toShort);
+  let {toShort} = req.params;
+  var valid = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)?/gi;
+  
+  if(valid.test(toShort) === true){
+    return 'Works';
+  }else{
+  return 'Fails';
+  }
 });
 
 
