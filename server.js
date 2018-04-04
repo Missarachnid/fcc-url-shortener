@@ -16,14 +16,9 @@ app.use(cors());
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';    
+
 console.log(uri);
 
-mongoose.connect(uri);
-var db = mongoose.connection;
-db.on('error', () => console.log('connection error:'));
-db.once('open', function() {
- console.log('connected to db');
-});
 
 //display the initial view
 app.use(express.static('public'));
@@ -34,15 +29,26 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   const valid = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/gi;
   
   if(valid.test(toShort) === true){
-    let num = Math.floor(Math.random() * 100000).toString();
+   mongodb.connect(uri, (err, db) => {
+     if(err){
+       console.log(err);
+     }else{
+      console.log('connected');
+      let num = Math.floor(Math.random() * 100000).toString();
     
-    const data = new shortUrl(
-      {
-      originalUrl: toShort,
-      shortenedUrl: num,
-      }
-    );
+      const data = new shortUrl(
+        {
+        originalUrl: toShort,
+        shortenedUrl: num,
+        }
+      );
+       
+       db.insert
+       
+       
+     }
    
+   });
       
         
         
