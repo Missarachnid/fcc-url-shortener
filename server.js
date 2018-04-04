@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors'); 
 var mongoose = require('mongoose');
 var path = require('path');
-var mongodb = require('mongodb');
+var mongodb = require('mongodb').MongoClient;
 var shortUrl = require('./models/shortUrl');
 
 var app = express();
@@ -57,3 +57,10 @@ var listener = app.listen(process.env.PORT, function () {
 //I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
 //If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
 //When I visit that shortened URL, it will redirect me to my original link
+
+//is url valid?
+//has url been entered before?
+//search for url
+
+//app.get for initial entry of url to be shortened
+//app.get for new website
