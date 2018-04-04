@@ -14,8 +14,14 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+//display the initial view
 app.use(express.static('public'));
 
+//retrieve the string entered after /new/ in the url
+app.get(('/new/toShort(*)'), (req, res, next) => {
+var {toShort} = req.params;
+  console.log(toShort);
+});
 
 
 
