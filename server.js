@@ -23,22 +23,32 @@ app.use(express.static('public'));
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
-  const valid = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)?/gi;
-  
-  
+  const valid = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/gi;
   
   if(valid.test(toShort) === true){
-    //let num = Math.floor(Math.random() * 100000).toString();
+    let num = Math.floor(Math.random() * 100000).toString();
     
-    //const data = new shortUrl(
-    //{
-    //originalUrl: toShort,
-    //shortenedUrl: num,
-    //}
-  //);
+    const data = new shortUrl(
+      {
+      originalUrl: toShort,
+      shortenedUrl: num,
+      }
+    );
+    mongodb.connect(uri, (err, db) => {
+      if(err){
+        console.log('unable to connect to server');
+        res.send(err);
+      } else {
+        let num = Math.floor(Math.random() * 100000).toString();
+        const data = {
+          orin
+        };
+      }
+    
+    });
     res.json({url: 'worked'});
   }else{
-    res.json({urlToShorten: 'Failed'});
+    res.json({urlToShorten: 'Failed, please refresh and try again.'});
   }
 });
 
