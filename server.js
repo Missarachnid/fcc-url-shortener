@@ -39,11 +39,11 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   
   if(valid.test(toShort) === true){
 
-    shortUrl.find({'originalUrl': toShort}, (err, res) => {
+    shortUrl.find({'originalUrl': toShort}, (err, resData) => {
       if(err){
         console.log(err);
       }
-      if(!res.length){
+      if(!resData.length){
         let num = Math.floor(Math.random() * 100000).toString();
         let data = new shortUrl(
           {
@@ -52,15 +52,16 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           });
       data.save(err => {
         if(err){
-          console.log('error saving to DB')
+          console.log('error saving to DB');
         } else {
-          res.send(data);
+          res.json(data);
         }
       });
     
-      }else{
-        res.send(data);
-      }
+    }else{
+      //console.log(resData.originalUrl);
+      
+    }
        
     });
       
