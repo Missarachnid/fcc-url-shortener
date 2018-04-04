@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var urlSchema = new Schema({
+const urlSchema = new Schema({
     originalUrl: String,
-    shorterUrl: String}, 
+    shortUrl: String}, 
     {timestamps:true});
 
-var ModelClass = mongoose.model('url-short', urlSchema);
+const ModelClass = mongoose.model('url-short', urlSchema);
 
 module.exports = ModelClass;

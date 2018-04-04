@@ -1,7 +1,4 @@
-// server.js
-// where your node app starts
-
-
+// Url Shortener project Free Code Camp
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors'); 
@@ -13,12 +10,14 @@ var shortUrl = require('./models/shortUrl');
 var app = express();
 app.use(bodyParser.json());
 app.use(cors());
+//connect to the MLab database
+const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
 
 //display the initial view
 app.use(express.static('public'));
 
 //retrieve the string entered after /new/ in the url
-app.get(('/new/toShort(*)'), (req, res, next) => {
+app.get(('/new/:toShort(*)'), (req, res, next) => {
 var {toShort} = req.params;
   console.log(toShort);
 });
