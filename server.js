@@ -18,6 +18,11 @@ const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.H
 const projectUrl = 'https://momentous-trick.glitch.me/';     
 
 mongoose.connect(uri, {useMongoClient: true});
+const db = mongoose.connection;
+db.on('error', console.log('error connecting to db'));
+db.once('open', function() {
+  console.log('connected');
+});
 
 //display the initial view
 app.use(express.static('public'));
@@ -38,11 +43,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
     );
    
       
-        let num = Math.floor(Math.random() * 100000).toString();
-        const data = {
-          originalUrl: toShort,
-          shortenedUrl: num
-        };
+        
         
     
     //res.json({url: 'worked'});
