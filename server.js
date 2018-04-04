@@ -1,21 +1,21 @@
 // Url Shortener project Free Code Camp
 
 //requirements
-var express = require('express');
-var bodyParser = require('body-parser');
-var cors = require('cors'); 
-var mongoose = require('mongoose');
-var path = require('path');
-var mongodb = require('mongodb').MongoClient;
-var shortUrl = require('./models/shortUrl');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors'); 
+const mongoose = require('mongoose');
+const path = require('path');
+const mongodb = require('mongodb').MongoClient;
+const shortUrl = require('./models/shortUrl');
 
-var app = express();
+const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
-                     
+const projectUrl = 'https://momentous-trick.glitch.me/';                     
 
 //display the initial view
 app.use(express.static('public'));
@@ -44,8 +44,14 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           originalUrl: toShort,
           shortenedUrl: num
         };
-        db.collection('+process.env.DB+')
+        db.collection('+process.env.DB+').insert(data, (err, res) => {
+          if(err) throw err;
+          res.json({
+            originalUrl: data.url,
+            shortenedUrl: projectUrl + data.shortenedUrl
+          });
         });
+        console.log('success');
       }
          
     
