@@ -47,34 +47,7 @@ app.get('/new/:urlToShorten(*)', (req, res)=>{
 });
 
 
-/**/
-if(experession.test(urlToShorten) === true){
-    var short = Math.floor(Math.random() * 100000).toString();
-    
-    var data = new shortUrl({
-      originalUrl: urlToShorten,
-      shorterUrl: short
-    });
-    
-    data.save(err=>{
-      if(err){
-        return res.send(err);
-      }
-    });
-    
- //   var url = datastore.get("urls");
-    //url.push(data);
-    res.json(data);
-  }
-  var data = new shortUrl({
-    originalUrl: urlToShorten,
-    shorterUrl: 'InvalidUrl'
-  })
-  return res.json(data);
-  //console.log(urlToShorten);
-});
 
-/**/
 
 
 

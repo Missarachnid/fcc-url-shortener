@@ -26,6 +26,8 @@
   "keywords": [
     "node",
     "glitch",
-    "express"
+    "express",
+    "mongo-db",
+    "url-shortener"
   ]
 }
