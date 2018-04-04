@@ -44,18 +44,13 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           originalUrl: toShort,
           shortenedUrl: num
         };
-        db.collection('+process.env.DB+').find({originalUrl: toShort}, (err, data) => {
-          if(err){
-            res.send(err);
-          } else{
-            console.log(data);
-          }
+        db.collection('+process.env.DB+')
         });
       }
          
     
     });
-    res.json({url: 'worked'});
+    //res.json({url: 'worked'});
   }else{
     res.json({urlToShorten: 'Failed, please refresh and try again.'});
   }
