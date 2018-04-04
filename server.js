@@ -51,19 +51,20 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           shortenedUrl: num,
           });
       data.save(err => {
-        if(err){console.log('error saving to DB')
-        res.json({{originalUrl: shortUrl}, {shortenedUrl: projectUrl + num}});
-      }else {
-        res.redirect(301, data.originalUrl);
-      }
-    });
+        if(err){
+          console.log('error saving to DB')
+        } else {
+          res.json(data);
+        }
+      });
     
+      }else{
       }
        
     });
       
   }else{
-    res.json({urlToShorten: 'Failed, please refresh and try again.'});
+    res.json({urlToShorten: 'Failed, structure as a proper url.'});
   }
 });
 
