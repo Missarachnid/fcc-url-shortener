@@ -17,7 +17,6 @@ app.use(cors());
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';    
 
-console.log(uri);
 
 mongoose.connect(uri).then((err, res) => {
   if(err){
@@ -32,6 +31,7 @@ mongoose.connect(uri).then((err, res) => {
 //display the initial view
 app.use(express.static('public'));
 
+
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
@@ -40,9 +40,9 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   if(valid.test(toShort) === true){
 
     shortUrl.find({'originalUrl': toShort}, (err, res) => {
-     if(err){
-       console.log(err);
-     }
+      if(err){
+        console.log(err);
+      }
       if(!res.length){
         let num = Math.floor(Math.random() * 100000).toString();
         let data = new shortUrl(
@@ -54,17 +54,18 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         if(err){
           console.log('error saving to DB')
         } else {
-          res.json(data);
+          res.send(data);
         }
       });
     
       }else{
+        res.send(data);
       }
        
     });
       
   }else{
-    res.json({urlToShorten: 'Failed, structure as a proper url.'});
+    res.send({urlToShorten: 'Failed, structure as a proper url.'});
   }
 });
 
