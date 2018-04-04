@@ -19,7 +19,13 @@ const projectUrl = 'https://momentous-trick.glitch.me/';
 
 console.log(uri);
 
-mongoose.connect(uri);
+mongoose.connect(uri).then((err, res) => {
+  if(err){
+    console.log(err);
+  }else{
+    console.log('connected');
+  }
+});
 
 
 
@@ -32,11 +38,9 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   const valid = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/gi;
   
   if(valid.test(toShort) === true){
-   mongodb.connect(uri, (err, db) => {
-     if(err){
-       console.log(err);
-     }else{
-      console.log('connected');
+  
+     
+      //console.log('connected');
       let num = Math.floor(Math.random() * 100000).toString();
     
       const data = new shortUrl(
@@ -46,14 +50,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         }
       );
        
-      data.save(err => {return res.send('Error saving to database')});
-     }
-   
-   });
       
-        
-        
-    
     //res.json({url: 'worked'});
   }else{
     res.json({urlToShorten: 'Failed, please refresh and try again.'});
