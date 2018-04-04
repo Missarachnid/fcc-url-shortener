@@ -25,7 +25,12 @@ mongoose.connect(uri).then((err, res) => {
     console.log('connected');
   }
 });
-
+const db = mongoose.connection;
+db.createCollection("shorturls", {
+    capped: true,
+    size: 5242880,
+    max: 5000
+  });
 
 
 //display the initial view
