@@ -39,28 +39,24 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   
   if(valid.test(toShort) === true){
 
-    shortUrl.findOne({'originalUrl': toShort}, (err, e) => {
+    var query = shortUrl.findOne({'originalUrl': toShort}, (err, res) => {
      if(err){
        console.log(err);
-     } else {
-       console.log(data);
-       let num = Math.floor(Math.random() * 100000).toString();
-       let data = new shortUrl(
-        {
-        originalUrl: toShort,
-        shortenedUrl: num,
-        }
-      );
-       
      }
     });
     
-    
-      //data.save(err => {
-        //if(err){
-          //return res.send('Error saving to database');
-        //}
-      //});   
+    if(query === false){
+      let num = Math.floor(Math.random() * 100000).toString();
+      let data = new shortUrl(
+        {
+        originalUrl: toShort,
+        shortenedUrl: num,
+        });
+      shortUrl.save(data, err => {
+        if(err){console.log('error saving to DB')}
+      });
+    }
+       
     
       
     //res.json({url: 'worked'});
