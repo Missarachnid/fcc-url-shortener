@@ -35,7 +35,7 @@ app.use(express.static('public'));
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
-  const valid = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/gi;
+  const valid = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
   
   if(valid.test(toShort) === true){
 
@@ -54,7 +54,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         if(err){
           console.log('error saving to DB');
         } else {
-          res.json(data);
+          res.send({originalUrl: toShort, shortenedUrl: num});
         }
       });
     
@@ -67,7 +67,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
     });
       
   }else{
-    res.send({urlToShorten: 'Failed, structure as a proper url.'});
+    res.send('Failed to Shorten, please structure as a proper url.');
   }
 });
 
