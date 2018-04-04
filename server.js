@@ -15,12 +15,15 @@ app.use(cors());
 
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
-const projectUrl = 'https://momentous-trick.glitch.me/';     
+const projectUrl = 'https://momentous-trick.glitch.me/';    
+console.log(uri);
 
-mongoose.connect(uri, {useMongoClient: true}).then(
-  () => { console.log('connected to db'); },
-  err => { console.log(err);}
-);
+mongoose.connect(uri);
+var db = mongoose.connection;
+db.on('error', () => console.log('connection error:'));
+db.once('open', function() {
+ console.log('connected to db');
+});
 
 //display the initial view
 app.use(express.static('public'));
