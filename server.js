@@ -1,4 +1,6 @@
 // Url Shortener project Free Code Camp
+
+//requirements
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors'); 
@@ -13,10 +15,7 @@ app.use(cors());
 
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
-mongodb.MongoClient.connect(uri, (err, db) => {
-  
-});
-                          
+                     
 
 //display the initial view
 app.use(express.static('public'));
@@ -29,30 +28,31 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   
   
   if(valid.test(toShort) === true){
-    let num = Math.floor(Math.random() * 100000).toString();
+    //let num = Math.floor(Math.random() * 100000).toString();
     
-    const data = new shortUrl(
-    {
-    originalUrl: toShort,
-    shortenedUrl: num,
-    }
-  );
-    data.save
+    //const data = new shortUrl(
+    //{
+    //originalUrl: toShort,
+    //shortenedUrl: num,
+    //}
+  //);
+    res.json({url: 'worked'});
   }else{
     res.json({urlToShorten: 'Failed'});
   }
 });
 
 
-mongodb.MongoClient.connect((uri, err, db) => {
-  if(err) throw err;
-});
+
+
 
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+
 
 //I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
 //If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
@@ -63,4 +63,4 @@ var listener = app.listen(process.env.PORT, function () {
 //search for url
 
 //app.get for initial entry of url to be shortened
-//app.get for new website
+//app.get for new website they are going to
