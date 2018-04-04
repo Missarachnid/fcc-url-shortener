@@ -39,7 +39,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
   
   if(valid.test(toShort) === true){
 
-    shortUrl.findOne({'originalUrl': toShort}, (err, res) => {
+    shortUrl.find({'originalUrl': toShort}, (err, res) => {
      if(err){
        console.log(err);
      }
@@ -50,19 +50,18 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           originalUrl: toShort,
           shortenedUrl: num,
           });
-      shortUrl.save(data, err => {
-        if(err){console.log('error saving to DB')}
-      });
+      data.save(err => {
+        if(err){console.log('error saving to DB')
+        res.json({{originalUrl: shortUrl}, {shortenedUrl: projectUrl + num}});
       }else {
         res.redirect(301, data.originalUrl);
       }
+    });
     
-    
-    
+      }
        
     });
       
-    //res.json({url: 'worked'});
   }else{
     res.json({urlToShorten: 'Failed, please refresh and try again.'});
   }
