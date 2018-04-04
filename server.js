@@ -15,7 +15,9 @@ app.use(cors());
 
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
-const projectUrl = 'https://momentous-trick.glitch.me/';                     
+const projectUrl = 'https://momentous-trick.glitch.me/';     
+
+mongoose.connect(uri, {useMongoClient: true});
 
 //display the initial view
 app.use(express.static('public'));
@@ -34,29 +36,15 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
       shortenedUrl: num,
       }
     );
-    mongodb.connect(uri, (err, db) => {
-      console.log(uri);
-      if(err){
-        console.log('unable to connect to server');
-        res.send(err);
-      } else {
+   
+      
         let num = Math.floor(Math.random() * 100000).toString();
         const data = {
           originalUrl: toShort,
           shortenedUrl: num
         };
-        //db.collection('+process.env.DB+').insert(data, (err, res) => {
-          //if(err) throw err;
-          //res.json({
-            //originalUrl: data.url,
-            //shortenedUrl: projectUrl + data.shortenedUrl
-          //});
-        //});
-        //console.log('success');
-      }
-         
+        
     
-    });
     //res.json({url: 'worked'});
   }else{
     res.json({urlToShorten: 'Failed, please refresh and try again.'});
