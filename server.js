@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //connect to the MLab database
-const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
+const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';                     
 
 //display the initial view
@@ -35,6 +35,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
       }
     );
     mongodb.connect(uri, (err, db) => {
+      console.log(uri);
       if(err){
         console.log('unable to connect to server');
         res.send(err);
@@ -44,14 +45,14 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           originalUrl: toShort,
           shortenedUrl: num
         };
-        db.collection('+process.env.DB+').insert(data, (err, res) => {
-          if(err) throw err;
-          res.json({
-            originalUrl: data.url,
-            shortenedUrl: projectUrl + data.shortenedUrl
-          });
-        });
-        console.log('success');
+        //db.collection('+process.env.DB+').insert(data, (err, res) => {
+          //if(err) throw err;
+          //res.json({
+            //originalUrl: data.url,
+            //shortenedUrl: projectUrl + data.shortenedUrl
+          //});
+        //});
+        //console.log('success');
       }
          
     
@@ -68,7 +69,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
 
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen('3000', function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
