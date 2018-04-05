@@ -8,29 +8,22 @@ const mongoose = require('mongoose');
 const path = require('path');
 const mongodb = require('mongodb').MongoClient;
 const shortUrl = require('./models/shortUrl');
-
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';    
 
-
-mongoose.connect(uri).then((err, res) => {
-  if(err){
-    console.log(err);
-  }else{
-    console.log('connected');
-  }
-});
-
-
-
 //display the initial view
 app.use(express.static('public'));
 
+//Start Mongodb through mongoose
+mongoose.connect(uri).then((err, res) => {
+  if(err){
+    console.log(err);
+  }
+});
 
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
@@ -41,7 +34,7 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
     //If it is formatted right, then we check to see if it already exists in the collection
     shortUrl.findOne({'originalUrl': toShort}, (err, resData) => {
       if(err){
-        console.log(err);
+        res.send('There was an error with the database. Please refresh and try again.');
       }
       //findOne returns null for no entries, so then we can save the entry
       if(resData === null){
@@ -51,23 +44,21 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
             originalUrl: toShort,
             shortenedUrl: num,
           });
-      data.save(err => {
-        if(err){
-          console.log('error saving to DB');
-        } else {
-          res.send({originalUrl: toShort, shortenedUrl: projectUrl + num});
-        }
-      });
-    
+        data.save(err => {
+          if(err){
+            console.log('error saving to DB');
+          } else {
+            res.send({originalUrl: toShort, shortenedUrl: projectUrl + num});
+          }
+        });
     }else{
       //If resData is not null, the entry already exists. I return the data from that entry
       res.send({originalUrl: resData.originalUrl, shortenedUrl: projectUrl + resData.shortenedUrl});
     }
-       
-    });
+  });
       
   }else{
-    //The url was not formatted correctly
+  //The url was not formatted correctly
     res.send('Failed to Shorten, please structure as a proper url.');
   }
 });
