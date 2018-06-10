@@ -25,6 +25,12 @@ mongoose.connect(uri).then((err, res) => {
   }
 });
 
+app.get('/:newUrl(*)', (req, res) => {
+  let {newUrl} = req.params;
+  console.log("New url" , newUrl);
+
+});
+
 //retrieve the string entered after /new/ in the url
 app.get(('/new/:toShort(*)'), (req, res, next) => {
   let {toShort} = req.params;
