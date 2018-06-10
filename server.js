@@ -28,6 +28,17 @@ mongoose.connect(uri).then((err, res) => {
 app.get('/:newUrl(*)', (req, res) => {
   let {newUrl} = req.params;
   console.log("New url" , newUrl);
+  shortUrl.findOne({shortenedUrl: newUrl}, (err, res) => {
+    if(err) {
+      res.send("There was an error. Please refresh and try again.");
+    } else if(newUrl === null) {
+      res.send("This url was not shortened. Please enter another url.");
+    } else {
+      let temp = req.originalUrl;
+      console.log("This is the url", temp);
+      //res.redirect(301, temp);
+    }
+  });
 
 });
 
