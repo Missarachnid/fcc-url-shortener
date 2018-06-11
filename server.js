@@ -26,13 +26,13 @@ mongoose.connect(uri).then((err, res) => {
   }
 });
 
-app.get('/:newUrl(*)', (req, res) => {
+app.get('/:newUrl', (req, res) => {
   let {newUrl} = req.params;
   console.log("New url" , newUrl);
   shortUrl.findOne({shortenedUrl: newUrl}, (err, data) => {
     if(err) {
       res.send("There was an error. Please refresh and try again.");
-    } else if(newUrl === null) {
+    } else if(data === null) {
       res.send("This url was not shortened. Please enter another url.");
     } else {
       let temp = data.originalUrl;
@@ -69,8 +69,8 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
           }
         });
     }else{
-      //If resData is not null, the entry already exists. I return the data from that entry
-      res.send({originalUrl: resData.originalUrl, shortenedUrl: projectUrl + resData.shortenedUrl});
+      console.log("resData", resData);
+      res.send({originalUrl: resData.original, shortenedUrl: resData.shortenedUrl});
     }
   });
       
