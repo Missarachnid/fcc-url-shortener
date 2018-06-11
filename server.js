@@ -11,6 +11,7 @@ const shortUrl = require('./models/shortUrl');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+require('dotenv').config();
 //connect to the MLab database
 const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';    
@@ -28,15 +29,15 @@ mongoose.connect(uri).then((err, res) => {
 app.get('/:newUrl(*)', (req, res) => {
   let {newUrl} = req.params;
   console.log("New url" , newUrl);
-  shortUrl.findOne({shortenedUrl: newUrl}, (err, res) => {
+  shortUrl.findOne({shortenedUrl: newUrl}, (err, data) => {
     if(err) {
       res.send("There was an error. Please refresh and try again.");
     } else if(newUrl === null) {
       res.send("This url was not shortened. Please enter another url.");
     } else {
-      let temp = req.originalUrl;
+      let temp = data.originalUrl;
       console.log("This is the url", temp);
-      //res.redirect(301, temp);
+      res.redirect(301, temp);
     }
   });
 
@@ -52,9 +53,8 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
     shortUrl.findOne({'originalUrl': toShort}, (err, resData) => {
       if(err){
         res.send('There was an error with the database. Please refresh and try again.');
-      }
-      //findOne returns null for no entries, so then we can save the entry
-      if(resData === null){
+      }else if (resData === null){
+        //findOne returns null for no entries, so then we can save the entry
         let num = Math.floor(Math.random() * 100000).toString();
         let data = new shortUrl(
           {
