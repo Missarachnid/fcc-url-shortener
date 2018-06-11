@@ -26,9 +26,9 @@ mongoose.connect(uri).then((err, res) => {
   }
 });
 
+//shortened url 
 app.get('/:newUrl', (req, res) => {
   let {newUrl} = req.params;
-  console.log("New url" , newUrl);
   shortUrl.findOne({shortenedUrl: newUrl}, (err, data) => {
     if(err) {
       res.send("There was an error. Please refresh and try again.");
@@ -36,11 +36,9 @@ app.get('/:newUrl', (req, res) => {
       res.send("This url was not shortened. Please enter another url.");
     } else {
       let temp = data.originalUrl;
-      console.log("This is the url", temp);
       res.redirect(301, temp);
     }
   });
-
 });
 
 //retrieve the string entered after /new/ in the url
@@ -64,13 +62,13 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
         data.save(err => {
           if(err){
             console.log('error saving to DB');
+            res.send("There was an error saving, please refresh and  try again");
           } else {
             res.send({originalUrl: toShort, shortenedUrl: projectUrl + num});
           }
         });
     }else{
-      console.log("resData", resData);
-      res.send({originalUrl: resData.original, shortenedUrl: resData.shortenedUrl});
+      res.send({originalUrl: resData.originalUrl, shortenedUrl: projectUrl + resData.shortenedUrl});
     }
   });
       
