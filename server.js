@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(cors());
 require('dotenv').config();
 //connect to the MLab database
-const uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
+const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+'/'+process.env.DB;
 const projectUrl = 'https://momentous-trick.glitch.me/';    
 
 //display the initial view
