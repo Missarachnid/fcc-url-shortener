@@ -80,5 +80,5 @@ app.get(('/new/:toShort(*)'), (req, res, next) => {
 
 // listen for requests :)
 var listener = app.listen('3000', function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+  //console.log('Your app is listening on port ' + listener.address().port);
 });
