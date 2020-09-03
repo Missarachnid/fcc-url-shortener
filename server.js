@@ -20,7 +20,7 @@ const projectUrl = 'https://momentous-trick.glitch.me/';
 app.use(express.static('public'));
 
 //Start Mongodb through mongoose
-mongoose.connect(uri).then((err, res) => {
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
   if(err){
     console.log(err);
   }
